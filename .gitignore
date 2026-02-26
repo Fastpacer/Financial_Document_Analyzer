@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# Environment variables
+.env
+
+# SQLite database file
+analysis.db
+
+# Streamlit
+.streamlit/
+
+# VS Code
+.vscode/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Build files
+build/
+dist/
+*.egg-info/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Docker
+*.pid
