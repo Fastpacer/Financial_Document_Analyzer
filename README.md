@@ -1,10 +1,9 @@
-#📊 Financial Document Analyzer (CrewAI Debug Challenge)
-##🚀 AI Internship Assignment Submission
+📊 Financial Document Analyzer
+🚀 AI Internship Assignment Submission
+🎯 Objective
+Debug and productionize an intentionally broken CrewAI-based financial document analysis system.
 
-Objective: Debug and productionize an intentionally broken CrewAI-based financial document analysis system.
-
-##📌 Project Overview
-
+📌 Project Overview
 This project is a production-ready financial document analysis system built using:
 
 FastAPI (Backend API)
@@ -31,9 +30,10 @@ Token overflow issues
 
 Broken database integration
 
-All identified issues have been resolved and the system has been refactored into a stable, production-grade architecture.
+✅ All identified issues have been resolved and the system has been refactored into a stable, production-grade architecture.
 
-##🧠 System Architecture
+🧠 System Architecture
+Code
 Streamlit Frontend
         ↓
 FastAPI Backend
@@ -45,113 +45,74 @@ Groq LLM (LiteLLM Router)
 SQLite Database
 🛠 Bugs Identified & Fixes Implemented
 1️⃣ Tool Validation Error (CrewAI + Pydantic)
-❌ Problem
+❌ Problem: Raw function was passed as a tool.
 
-Raw function was passed as a tool:
-
+python
 tools=[FinancialDocumentTool.read_data_tool]
+✅ Fix: Refactored tool to inherit from BaseTool.
 
-CrewAI expects BaseTool instance.
-
-✅ Fix
-
-Refactored tool to inherit from BaseTool:
-
+python
 class FinancialDocumentTool(BaseTool):
-
-Passed as:
-
+    ...
 tools=[FinancialDocumentTool()]
 2️⃣ OpenAI API Key Error
-❌ Problem
+❌ Problem: CrewAI defaulted to OpenAI provider internally.
+Error: OPENAI_API_KEY is required
 
-CrewAI defaulted to OpenAI provider internally.
+✅ Fix: Switched to official CrewAI LLM wrapper.
 
-Error:
-
-OPENAI_API_KEY is required
-✅ Fix
-
-Switched to official CrewAI LLM wrapper:
-
+python
 llm = LLM(model="groq/llama3-8b-8192")
-
-Used GROQ_API_KEY environment variable.
+Environment variable: GROQ_API_KEY
 
 3️⃣ LiteLLM Fallback Error
-❌ Problem
-Fallback to LiteLLM is not available
-✅ Fix
+❌ Problem: Fallback to LiteLLM not available.
+✅ Fix: Installed dependency:
 
-Installed dependency:
-
+bash
 pip install litellm
 4️⃣ Incorrect Model (Whisper Used for Chat)
-❌ Problem
-
-Model whisper-large-v3-turbo does not support chat completions.
-
-✅ Fix
-
-Replaced with valid Groq chat model:
-
+❌ Problem: whisper-large-v3-turbo does not support chat completions.
+✅ Fix: Replaced with valid Groq chat model:
 groq/llama3-8b-8192
+
 5️⃣ Groq Token Rate Limit (TPM Overflow)
-❌ Problem
+❌ Problem: Full PDF passed to LLM → exceeded 10k tokens/min.
+Error: RateLimitError: Requested 12588 tokens
 
-Full PDF was being passed to LLM.
-Exceeded 10k tokens per minute.
+✅ Fix (Production Decision):
 
-Error:
-
-RateLimitError: Requested 12588 tokens
-✅ Fix (Production Design Decision)
-
-Implemented input truncation:
-
+python
 MAX_CHARS = 8000
 full_text = full_text[:MAX_CHARS]
-🎯 Tradeoff
+🎯 Tradeoff:
 
 Prevents token overflow
 
-Keeps free-tier compatible
+Free-tier compatible
 
-Avoids complex chunking/RAG (time-efficient decision)
+Avoids complex chunking/RAG
 
 6️⃣ SQLAlchemy Import Error
-❌ Problem
+❌ Problem: AnalysisResult model missing.
+✅ Fix: Proper ORM model created.
 
-AnalysisResult model missing in models.py.
-
-✅ Fix
-
-Proper ORM model created:
-
+python
 class AnalysisResult(Base):
+    ...
 7️⃣ Celery + Redis Instability (Windows)
-❌ Problem
+❌ Problem: Celery worker failed repeatedly, Redis setup complex.
+🎯 Decision: Removed Celery → synchronous processing.
 
-Celery worker failed repeatedly.
-Redis setup complex on Windows.
-Time constraints critical.
+Tradeoff:
 
-🎯 Design Decision
-
-Removed Celery and implemented synchronous processing.
-
-Tradeoff Chosen
-
-Stability over unnecessary concurrency
+Stability > unnecessary concurrency
 
 Focused on core assignment objectives
 
 Reduced operational complexity
 
-Bonus features (DB integration) were retained.
-
 ✨ Prompt Engineering Improvements
-
 Original prompts encouraged:
 
 Hallucinations
@@ -162,9 +123,7 @@ Contradictions
 
 Non-compliant financial advice
 
-Refactored Agent Prompt
-
-Now:
+✅ Refactored Agent Prompt:
 
 Evidence-based analysis only
 
@@ -174,9 +133,8 @@ No speculative investment claims
 
 Professional tone
 
-This eliminates inefficient prompt behavior.
-
 📂 Final Repository Structure
+Code
 Financial_Document_Analyzer/
 │
 ├── app/
@@ -196,41 +154,51 @@ Financial_Document_Analyzer/
 └── README.md
 ⚙️ Setup Instructions
 1️⃣ Clone Repository
+
+bash
 git clone <your_repo_url>
 cd Financial_Document_Analyzer
 2️⃣ Create Virtual Environment
+
+bash
 python -m venv venv
 venv\Scripts\activate
 3️⃣ Install Dependencies
+
+bash
 pip install -r requirements.txt
 pip install litellm
-4️⃣ Set Groq API Key
-
+4️⃣ Set Groq API Key  
 Create .env file:
 
+Code
 GROQ_API_KEY=your_groq_key_here
 5️⃣ Run Backend
+
+bash
 uvicorn app.main:app --reload
 6️⃣ Run Frontend
+
+bash
 streamlit run frontend/streamlit_app.py
 🔌 API Documentation
 POST /analyze
-
 Uploads PDF and returns analysis.
 
-Request
+Request:
 
 file: PDF file
 
 query: Optional analysis prompt
 
-Response
+Response:
+
+json
 {
   "record_id": 1,
   "analysis": "Structured financial analysis..."
 }
 GET /result/{record_id}
-
 Fetch stored analysis result.
 
 🎯 Key Design Choices
@@ -241,7 +209,6 @@ Background Jobs	Removed	Stability under time constraint
 Database	SQLite	Lightweight + sufficient
 Frontend	Streamlit	Fast demo-ready UI
 🧩 Constraints Encountered
-
 Groq free-tier TPM limits
 
 CrewAI strict tool validation
@@ -252,4 +219,4 @@ Windows Redis incompatibility
 
 Model compatibility issues
 
-All were resolved systematically.
+✅ All were resolved systematically.
