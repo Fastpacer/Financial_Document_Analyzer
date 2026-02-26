@@ -1,9 +1,9 @@
-📊 Financial Document Analyzer
-🚀 AI Internship Assignment Submission
-🎯 Objective
+# 📊 Financial Document Analyzer
+## 🚀 AI Internship Assignment Submission
+### 🎯 Objective
 Debug and productionize an intentionally broken CrewAI-based financial document analysis system.
 
-📌 Project Overview
+## 📌 Project Overview
 This project is a production-ready financial document analysis system built using:
 
 FastAPI (Backend API)
@@ -32,7 +32,7 @@ Broken database integration
 
 ✅ All identified issues have been resolved and the system has been refactored into a stable, production-grade architecture.
 
-🧠 System Architecture
+## 🧠 System Architecture
 Code
 Streamlit Frontend
         ↓
@@ -104,7 +104,7 @@ class AnalysisResult(Base):
 ❌ Problem: Celery worker failed repeatedly, Redis setup complex.
 🎯 Decision: Removed Celery → synchronous processing.
 
-Tradeoff:
+## Tradeoff:
 
 Stability > unnecessary concurrency
 
@@ -133,7 +133,7 @@ No speculative investment claims
 
 Professional tone
 
-📂 Final Repository Structure
+## 📂 Final Repository Structure
 Code
 Financial_Document_Analyzer/
 │
@@ -201,7 +201,7 @@ json
 GET /result/{record_id}
 Fetch stored analysis result.
 
-🎯 Key Design Choices
+## 🎯 Key Design Choices
 Challenge	Decision	Reason
 LLM Provider	Groq	Free-tier compatible
 Token Overflow	Truncation	Simplicity & reliability
