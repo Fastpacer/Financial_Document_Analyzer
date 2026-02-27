@@ -3,6 +3,69 @@
 ### 🎯 Objective
 Debug and productionize an intentionally broken CrewAI-based financial document analysis system.
 
+
+### ▶️ How to Run the Application (Step-by-Step)
+🖥 System Requirements
+
+Python 3.10 or higher
+
+pip
+
+Groq API Key (Free Tier Supported)
+
+1️⃣ Clone the Repository
+git clone <your_repository_url>
+cd Financial_Document_Analyzer
+2️⃣ Create & Activate Virtual Environment
+Windows
+python -m venv venv
+venv\Scripts\activate
+macOS / Linux
+python3 -m venv venv
+source venv/bin/activate
+3️⃣ Install Dependencies
+pip install -r requirements.txt
+pip install litellm
+4️⃣ Configure Environment Variables
+
+Create a .env file in the root directory:
+
+GROQ_API_KEY=your_groq_api_key_here
+
+Or set temporarily in terminal:
+
+Windows
+set GROQ_API_KEY=your_groq_api_key_here
+macOS / Linux
+export GROQ_API_KEY=your_groq_api_key_here
+5️⃣ Run Backend (FastAPI)
+uvicorn app.main:app --reload
+
+Backend will start at:
+
+http://127.0.0.1:8000
+
+You can verify API docs at:
+
+http://127.0.0.1:8000/docs
+6️⃣ Run Frontend (Streamlit)
+
+Open a new terminal (keep backend running):
+
+streamlit run frontend/streamlit_app.py
+
+Frontend will open in browser automatically.
+
+### 🧪 How to Test the Application
+
+Upload any financial PDF document
+
+Provide an optional analysis query
+
+Click Analyze Document
+
+View structured
+
 ## 📌 Project Overview
 This project is a production-ready financial document analysis system built using:
 
